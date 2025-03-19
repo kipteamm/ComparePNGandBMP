@@ -4,7 +4,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "ImageComparator.h"
-#include "stb_image.h"
+#include "tools/stb_image.h"
 
 #include <unordered_map>
 #include <filesystem>
@@ -64,7 +64,7 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
 
     const int channels = std::min(channels1, channels2);
     const long long totalPixels = width1 * height1 * channels;
-    long long matchingPixels = 0;
+    double matchingPixels = 0.0;
 
     for (int y = 0; y < height1; y++) {
         for (int x = 0; x < width1; x++) {
@@ -77,8 +77,8 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
             }
         }
     }
-
-    const double similarity = static_cast<double> (matchingPixels / totalPixels * 100.0);
+    
+    const double similarity = (matchingPixels / totalPixels) * 100.0;
     std::cout << "Comparing " << fs::path(file1).filename() << " and " << fs::path(file2).filename() << ": " << similarity << "% similar" << std::endl;
 
     stbi_image_free(img1);
