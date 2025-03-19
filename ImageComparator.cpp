@@ -4,7 +4,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "ImageComparator.h"
-#include "tools/stb_image.h"
+#include "stb_image.h"
 
 #include <unordered_map>
 #include <filesystem>
