@@ -7,6 +7,13 @@ Copy/import all the following files to your project:
 - `ImageComparator.cpp`
 - `stb_image.h`  
 
+Make sure to list in your CMakeLists.txt source files:
+```cmake
+stb_image.h
+ImageComparator.cpp
+```
+
+To use the comparator
 ```cpp
 #include "ImageComparator.h"
 
