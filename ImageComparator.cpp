@@ -77,9 +77,14 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
             }
         }
     }
-    
+
     const double similarity = (matchingPixels / totalPixels) * 100.0;
     std::cout << "Comparing " << fs::path(file1).filename() << " and " << fs::path(file2).filename() << ": " << similarity << "% similar" << std::endl;
+
+    if (similarity > 96) {
+        this->goodMatches += 1;
+        this->similarityRate = std::min(this->similarityRate, similarity);
+    }
 
     stbi_image_free(img1);
     stbi_image_free(img2);
@@ -91,4 +96,6 @@ void ImageComparator::compare() {
     for (const auto&[fst, snd] : this->filePairs) {
         compareImages(fst, snd);
     }
+
+    std::cout << this->goodMatches << "/" << this->filePairs.size() << " images have a similarity rate of over " << this->similarityRate << "%";
 }
