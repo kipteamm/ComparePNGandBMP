@@ -55,8 +55,14 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
     }
 
     if (width1 != width2 || height1 != height2) {
-        std::cerr << "Images have different dimensions: " << file1 << " (" << width1 << "x" << height1 << ") vs "
-                  << file2 << " (" << width2 << "x" << height2 << ")" << std::endl;
+        const int difference = std::abs(width1 + height1 - width2 - height2);
+        if (difference == 1) {
+            std::cout << "\033[33m";
+        } else {
+            std::cout << "\033[31m";
+        }
+
+        std::cout << "Images have different dimensions: " << file1 << " (" << width1 << "x" << height1 << ") vs " << file2 << " (" << width2 << "x" << height2 << ")" << "\033[0m" << std::endl;
         stbi_image_free(img1);
         stbi_image_free(img2);
         return false;
@@ -79,7 +85,9 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
     }
 
     const double similarity = (matchingPixels / totalPixels) * 100.0;
-    std::cout << "Comparing " << fs::path(file1).filename() << " and " << fs::path(file2).filename() << ": " << similarity << "% similar" << std::endl;
+    if (similarity <= 90) std::cout << "\033[31m";
+    else if (similarity <= 96) std::cout << "\033[33m";
+    std::cout << fs::path(file1).filename() << " and " << fs::path(file2).filename() << " are " << similarity << "% similar" << "\033[0m" << std::endl;
 
     if (similarity > 96) {
         this->goodMatches += 1;
