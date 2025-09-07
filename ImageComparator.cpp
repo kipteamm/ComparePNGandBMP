@@ -55,7 +55,7 @@ bool ImageComparator::compareImages(const std::string& file1, const std::string&
     }
 
     if (width1 != width2 || height1 != height2) {
-        const int difference = std::abs(width1 + height1 - width2 - height2);
+        const int difference = std::abs(width1 - width2) + std::abs(height1 - height2);
         if (difference == 1) {
             std::cout << "\033[33m";
         } else {
